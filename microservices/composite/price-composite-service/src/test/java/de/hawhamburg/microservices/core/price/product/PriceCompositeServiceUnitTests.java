@@ -1,8 +1,8 @@
 package de.hawhamburg.microservices.core.price.product;
 
 import de.hawhamburg.microservices.composite.price.model.CalculatedPrice;
+import de.hawhamburg.microservices.composite.price.model.Price;
 import de.hawhamburg.microservices.composite.price.service.PriceCompositeIntegration;
-import de.hawhamburg.microservices.core.price.jpa.domain.Price;
 import org.junit.Before;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
