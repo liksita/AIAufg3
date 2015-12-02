@@ -1,6 +1,5 @@
 package de.hawhamburg.microservices.composite.price.model;
 
-import de.hawhamburg.microservices.core.price.jpa.domain.Price;
 
 /**
  * Created by Ole on 07.11.2015.

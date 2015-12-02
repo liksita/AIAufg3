@@ -1,7 +1,7 @@
 package de.hawhamburg.microservices.composite.price.service;
 
+import de.hawhamburg.microservices.composite.price.model.Price;
 import de.hawhamburg.microservices.composite.price.util.ResponseHelper;
-import de.hawhamburg.microservices.core.price.jpa.domain.Price;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.HttpStatus;
@@ -57,7 +57,7 @@ public class PriceCompositeIntegration {
     }
 
     //OF TODO add @HystrixCommand(fallbackMethod = "defaultPrice")
-    public void deletePrice(UUID flightId){
+    public boolean deletePrice(UUID flightId){
         //OF TODO implement
         //OF TODO use this later
 //        URI uri = utils.getServiceUrl("price");
@@ -67,10 +67,17 @@ public class PriceCompositeIntegration {
         String urlToPriceService = "http://localhost:8080";
         String url =urlToPriceService + "/price/"+flightId;
         restTemplate.delete(url);
+
+        if (restTemplate.getForEntity(url, String.class) == null) {
+            return  true;
+        } else {
+            return false;
+        }
+
     }
 
     //OF TODO add @HystrixCommand(fallbackMethod = "defaultPrice")
-    public void putPrice(Price price){
+    public boolean putPrice(Price price){
         //OF TODO use this later
 //        URI uri = utils.getServiceUrl("price");
 //        String url = uri.toString() + "/price";
@@ -79,6 +86,11 @@ public class PriceCompositeIntegration {
         String urlToPriceService = "http://localhost:8080";
         String url =urlToPriceService + "/price";
         restTemplate.put(url,price);
+        if (restTemplate.getForEntity(url, String.class) != null) {
+            return  true;
+        } else {
+            return false;
+        }
     }
 
 
