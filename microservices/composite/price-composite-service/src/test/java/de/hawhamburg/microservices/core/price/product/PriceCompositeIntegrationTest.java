@@ -91,15 +91,15 @@ public class PriceCompositeIntegrationTest {
         Assert.assertTrue(response);
     }
 
-    @Test
-    public void testPutPrice() throws URISyntaxException {
-        UUID uuid = UUID.randomUUID();
-        Price price = new Price.PriceBuilder().withFlightId(uuid).withValue(200.0).build();
-
-        Boolean response = priceCompositeIntegration.putPrice(price);
-        Assert.assertTrue(response);
-
-    }
+//    @Test
+//    public void testPutPrice() throws URISyntaxException {
+//        UUID uuid = UUID.randomUUID();
+//        Price price = new Price.PriceBuilder().withFlightId(uuid).withValue(200.0).build();
+//
+//        Boolean response = priceCompositeIntegration.putPrice(price);
+//        Assert.assertTrue(response);
+//
+//    }
 
 
 }
