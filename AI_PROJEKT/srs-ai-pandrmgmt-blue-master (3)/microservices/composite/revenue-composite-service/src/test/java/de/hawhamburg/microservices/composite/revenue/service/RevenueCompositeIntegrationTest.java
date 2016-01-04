@@ -1,9 +1,6 @@
-/*
-package de.hawhamburg.microservices.composite.price.service;
+package de.hawhamburg.microservices.composite.revenue.service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import de.hawhamburg.microservices.composite.price.model.Price;
+import de.hawhamburg.microservices.composite.revenue.model.Revenue;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,14 +17,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
 
-*
- * Created by unknown on 02.12.15.
-
 
 public class RevenueCompositeIntegrationTest {
 
     @InjectMocks
-    private PriceCompositeIntegration priceCompositeIntegration;
+    private RevenueCompositeIntegration revenueCompositeIntegration;
 
     @Mock
     private RestTemplate restTemplate;
@@ -42,66 +36,22 @@ public class RevenueCompositeIntegrationTest {
     }
 
     @Test
-    public void testGetPrice() throws URISyntaxException {
+    public void testGetRevenue() throws URISyntaxException {
         UUID flightId = UUID.randomUUID();
-        Price price = new Price.PriceBuilder().withFlightId(flightId).withValue(200.0).build();
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        String priceJson = gson.toJson(price);
+        Revenue revenue = new Revenue.RevenueBuilder().withFlightId(flightId).withValue(200.0).build();
 
-        ResponseEntity<String> priceResponseEntity = new ResponseEntity<String>(priceJson, HttpStatus.OK);
+        ResponseEntity<Revenue> revenueResponseEntity = new ResponseEntity<Revenue>(revenue, HttpStatus.OK);
 
-        String url = "http://localhost:8080/price/"+flightId;
+        String url = "http://localhost:8080/revenue/"+flightId;
 
-        Mockito.when(utils.getServiceUrl("price")).thenReturn(new URI("http://localhost:8080"));
-        Mockito.when(restTemplate.getForEntity(url,String.class)).thenReturn(priceResponseEntity);
-        Mockito.when(utils.createOkResponse(price)).thenReturn(new ResponseEntity<Price>(price,HttpStatus.OK));
-        
-        ResponseEntity<Price> responseEntity = priceCompositeIntegration.getPrice(flightId);
-        Price priceToCheck = responseEntity.getBody();
+        Mockito.when(utils.getServiceUrl("revenue")).thenReturn(new URI("http://localhost:8080"));
+        Mockito.when(restTemplate.getForEntity(url,Revenue.class)).thenReturn(revenueResponseEntity);
+        Mockito.when(utils.createOkResponse(revenue)).thenReturn(new ResponseEntity<Revenue>(revenue,HttpStatus.OK));
 
-        Assert.assertEquals(priceToCheck.getValue(),200.0);
+        ResponseEntity<Revenue> responseEntity = revenueCompositeIntegration.getRevenue(flightId);
+        Revenue revenueToCheck = responseEntity.getBody();
+
+        Assert.assertEquals(revenueToCheck.getValue(), 200.0);
     }
 
-    @Test
-    public void testCreatePrice() throws URISyntaxException {
-        UUID uuid = UUID.randomUUID();
-        Price price = new Price.PriceBuilder().withFlightId(uuid).withValue(200.0).build();
-        String urlToPriceService = "http://localhost:8080";
-        String url =urlToPriceService + "/price";
-        ResponseEntity<Price> resultStr = new ResponseEntity<>(price, HttpStatus.OK);
-        Mockito.when(restTemplate.postForEntity(url, price, Price.class)).thenReturn(resultStr);
-        Mockito.when(utils.createOkResponse(price)).thenReturn(new ResponseEntity<>(price,HttpStatus.OK));
-        ResponseEntity<Price> responseEntity = priceCompositeIntegration.createPrice(price);
-        Price priceToCheck = responseEntity.getBody();
-
-        Assert.assertEquals(priceToCheck.getValue(),200.0);
-    }
-
-    @Test
-    public void testDeletePrice() throws URISyntaxException {
-        UUID uuid = UUID.randomUUID();
-        Price price = new Price.PriceBuilder().withFlightId(uuid).withValue(200.0).build();
-
-        String urlToPriceService = "http://localhost:8080";
-        String url =urlToPriceService + "/price";
-        ResponseEntity<Price> resultStr = new ResponseEntity<Price>(price, HttpStatus.OK);
-        Mockito.when(restTemplate.postForEntity(url,price,Price.class)).thenReturn(resultStr);
-        Mockito.when(utils.createOkResponse(price)).thenReturn(new ResponseEntity<>(price,HttpStatus.OK));
-        priceCompositeIntegration.createPrice(price);
-
-        Boolean response = priceCompositeIntegration.deletePrice(uuid);
-        Assert.assertTrue(response);
-    }
-
-    @Test
-    public void testPutPrice() throws URISyntaxException {
-        UUID uuid = UUID.randomUUID();
-        Price price = new Price.PriceBuilder().withFlightId(uuid).withValue(200.0).build();
-
-        Boolean response = priceCompositeIntegration.putPrice(price);
-        Assert.assertTrue(response);
-
-    }
 }
-*/
